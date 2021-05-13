@@ -1,5 +1,7 @@
 package com.example.expenseTracker.model;
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,12 +9,12 @@ import javax.persistence.*;
 public class Category {
     @Id
     private Long id;
+    @NonNull
     private String categoryName; // The categories user wants
 
-    // Connecting Category to User, persist on both User and Category table
-
-
-    public Category() {}
+    public Category() {
+        categoryName = null;
+    }
 
     public Category(Long id, String categoryName) {
         this.id = id;
