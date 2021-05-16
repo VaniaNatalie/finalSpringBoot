@@ -52,7 +52,7 @@ public class CategoryController {
 
     // Put request to update existing category
     @PutMapping("/categories/{id}")
-    ResponseEntity<Category> updateCategory (@Valid @RequestBody Category category) {
+    ResponseEntity<Category> updateCategory(@Valid @RequestBody Category category) {
         // Override existing category
         Category updateCategory = categoryRepository.save(category);
         return ResponseEntity.ok().body(updateCategory);
@@ -60,9 +60,9 @@ public class CategoryController {
 
     // Delete request
     @DeleteMapping("/categories/{id}")
-    ResponseEntity<?> deleteCategory (@PathVariable Long id) {
+    ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         categoryRepository.deleteById(id);
-        // Build response status of OK
+        // Return status ok
         return ResponseEntity.ok().build();
     }
 

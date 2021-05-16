@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto&display=swap');
+
+.body {
+    padding-top: 80px;
+}
+
+.body-title {
+    font-size: 50px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}

@@ -1,5 +1,7 @@
 package com.example.expenseTracker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -14,9 +16,12 @@ public class Expense {
     private Instant timeStamp; // Exact time point of expense creation
     private String description; // Description of expense
 
+    // Ignore these attributes when returning response
+    @JsonIgnore
     @ManyToOne
     private Category category;
 
+    @JsonIgnore
     @ManyToOne
     private User user;
 
