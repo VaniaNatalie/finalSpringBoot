@@ -8,11 +8,12 @@ import Moment from "react-moment";
 
 class Expense extends Component {
     // Structure of packet we're supposed to send
+    // Id for both expense and category will be auto generated in
+    // spring boot so there is no need to specify it
     emptyItem = {
         timeStamp: new Date(),
         description: '',
-        // id: 1,
-        category: {id: 1, categoryName: ''}
+        category: {categoryName: ''}
     }
 
     // Props (property) -> external property from user input
