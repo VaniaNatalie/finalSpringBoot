@@ -29,6 +29,7 @@ class Expense extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeDate = this.handleChangeDate.bind(this);
+        this.handleChangeCategory = this.handleChangeCategory.bind(this);
     }
 
     async handleSubmit(event) {
@@ -61,6 +62,13 @@ class Expense extends Component {
         let item = {...this.state.item};
         item.timeStamp = date; // Update time stamp in item
         this.setState({item: item}); // Update item in state
+    }
+    
+    handleChangeCategory(event) {
+        const selectedCategory = event.target.value;
+        let item = {...this.state.item};
+        item.category.id = selectedCategory;
+        this.setState({item: item});
     }
 
     async remove(id) {
@@ -131,7 +139,7 @@ class Expense extends Component {
 
                         <FormGroup>
                             <Label for="category">Category</Label>
-                            <select onChange={this.handleChange}>{optionList}</select>
+                            <select onChange={this.handleChangeCategory}>{optionList}</select>
                         </FormGroup>
 
                         <FormGroup>
