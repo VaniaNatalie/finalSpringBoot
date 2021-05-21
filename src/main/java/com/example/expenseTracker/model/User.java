@@ -1,25 +1,27 @@
 package com.example.expenseTracker.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name="users")
 public class User {
     @Id
+    @SequenceGenerator(name = "users_seq", sequenceName = "users_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq")
     private Long id;
     private String name;
     private String email;
-
-    // Connecting User to Category, one user can have many categories
 
     public User() {}
 
     public User(Long id, String name, String email) {
         this.id = id;
+        this.name = name;
+        this.email = email;
+    }
+
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
     }

@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     // When passing String name, search the database and return
+    // Can be deleted
+    // Serves only as interface to JpaRepository, which contains methods to access database from here
     Category findByCategoryName(String categoryName);
 
 }

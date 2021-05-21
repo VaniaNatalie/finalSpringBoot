@@ -7,7 +7,10 @@ import javax.persistence.*;
 @Entity
 @Table(name="category")
 public class Category {
+    // Create auto generated id
     @Id
+    @SequenceGenerator(name = "category_seq", sequenceName = "category_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq")
     private Long id;
     @NonNull
     private String categoryName; // The categories user wants
@@ -18,6 +21,11 @@ public class Category {
 
     public Category(Long id, String categoryName) {
         this.id = id;
+        this.categoryName = categoryName;
+    }
+
+    // Id is auto generated
+    public Category(String categoryName) {
         this.categoryName = categoryName;
     }
 
