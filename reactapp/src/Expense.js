@@ -11,9 +11,10 @@ class Expense extends Component {
     // Id for both expense and category will be auto generated in
     // spring boot so there is no need to specify it
     emptyItem = {
+        // Set default values
         timeStamp: new Date(),
         description: '',
-        category: {categoryName: ''}
+        category: {id: 0, categoryName: ''}
     }
 
     // Props (property) -> external property from user input
@@ -21,7 +22,6 @@ class Expense extends Component {
         super(props);
         // Initialize state (set initial/default value to each obj inside state)
         this.state = {
-            date: new Date(),
             isLoading: true,
             expenses: [],
             categories: [],
