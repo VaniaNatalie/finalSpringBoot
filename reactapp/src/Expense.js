@@ -14,7 +14,7 @@ class Expense extends Component {
         // Set default values
         timeStamp: new Date(),
         description: '',
-        category: {id: 0, categoryName: ''}
+        category: {id: 1, categoryName: ''}
     }
 
     // Props (property) -> external property from user input
