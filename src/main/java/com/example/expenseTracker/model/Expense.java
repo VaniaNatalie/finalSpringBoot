@@ -12,7 +12,7 @@ public class Expense {
     @SequenceGenerator(name = "expense_seq", sequenceName = "expense_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense_seq")
     private Long id;
-    private Instant timeStamp; // Exact time point of expense creation
+    private String timeStamp; // Exact time point of expense creation
     private String description; // Description of expense
 
     @ManyToOne
@@ -25,7 +25,7 @@ public class Expense {
 
     public Expense() {}
 
-    public Expense(Long id, Instant timeStamp, String description, Category category, User user) {
+    public Expense(Long id, String timeStamp, String description, Category category, User user) {
         this.id = id;
         this.timeStamp = timeStamp;
         this.description = description;
@@ -34,7 +34,7 @@ public class Expense {
     }
 
     // Id is auto generated
-    public Expense(Instant timeStamp, String description, Category category, User user) {
+    public Expense(String timeStamp, String description, Category category, User user) {
         this.timeStamp = timeStamp;
         this.description = description;
         this.category = category;
@@ -49,11 +49,11 @@ public class Expense {
         this.id = id;
     }
 
-    public Instant getTimeStamp() {
+    public String getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(Instant timeStamp) {
+    public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
 
