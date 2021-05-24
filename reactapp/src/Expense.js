@@ -1,10 +1,8 @@
 // Expense form
 import React, { Component } from 'react';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import {Button, Container, Form, FormGroup, Input, Label, Table} from "reactstrap";
 import {Link} from "react-router-dom";
-import Moment from "react-moment";
 
 class Expense extends Component {
     // Structure of packet we're supposed to send
@@ -12,14 +10,15 @@ class Expense extends Component {
     // spring boot so there is no need to specify it
     emptyItem = {
         // Set default values
-        timeStamp: new Date(),
+        timeStamp: new Date().toISOString().substr(0,10), // Get only date w/o timezone
         description: '',
-        category: {id: 0, categoryName: ''}
+        category: {id: 1, categoryName: ''}
     }
 
     // Props (property) -> external property from user input
     constructor(props) {
         super(props);
+
         // Initialize state (set initial/default value to each obj inside state)
         this.state = {
             isLoading: true,
@@ -29,7 +28,6 @@ class Expense extends Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleChangeDate = this.handleChangeDate.bind(this);
         this.handleChangeCategory = this.handleChangeCategory.bind(this);
     }
 
@@ -58,12 +56,6 @@ class Expense extends Component {
         item[name] = value; // Update specific field of item
         this.setState({item: item}); // Update item in state
     }
-
-    handleChangeDate(date) {
-        let item = {...this.state.item};
-        item.timeStamp = date; // Update time stamp in item
-        this.setState({item: item}); // Update item in state
-    }
     
     handleChangeCategory(event) {
         const selectedCategory = event.target.value;
@@ -89,6 +81,26 @@ class Expense extends Component {
             this.setState({expenses: updatedExpenses});
         });
     }
+
+    async update(id) {
+        /*
+        const response = await fetch(`/api/expenses/${id}`);
+        const body = await response.json();
+        this.setState( {item: {...body}});
+
+        await fetch(`api/expenses/${id}`, {
+            // Method is put
+            method: 'PUT',
+            // Only accepting json type
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            // body: JSON.stringify(item),
+        });
+        */
+        this.props.history.push(`/expense/${id}`);
+    }
     
     async componentDidMount() {
         const response = await fetch('/api/categories');
@@ -98,6 +110,7 @@ class Expense extends Component {
         const responseExp = await fetch('/api/expenses');
         const bodyExp = await responseExp.json();
         this.setState({expenses: bodyExp, isLoading: false});
+
     }
 
     render() {
@@ -121,10 +134,12 @@ class Expense extends Component {
             expenses.map (expense =>
                 <tr key={expense.id}>
                     <td>{expense.description}</td>
-                    <td><Moment date={expense.timeStamp} format="YYYY/MM/DD"/></td>
+                    <td>{expense.timeStamp}</td>
                     <td>{expense.category.categoryName}</td>
                     <td><Button size="sm" color="danger" onClick={ () =>
-                    this.remove(expense.id)}>Delete</Button></td>
+                        this.remove(expense.id)}>Delete</Button></td>
+                    <td><Button size="sm" color="secondary" onClick={ () =>
+                        this.update(expense.id)}>Update</Button></td>
                 </tr>)
 
         return (
@@ -143,10 +158,13 @@ class Expense extends Component {
                             <select onChange={this.handleChangeCategory}>{optionList}</select>
                         </FormGroup>
 
-                        <FormGroup>
-                            <Label for="date">Date</Label>
-                            <DatePicker selected={this.state.item.timeStamp} onChange={this.handleChangeDate}/>
-                        </FormGroup>
+                        <div className="row">
+                            <FormGroup className="col-md-4 mb-3">
+                                <Label for="timeStamp">Date</Label>
+                                <Input type="date" name="timeStamp" value={this.state.item.timeStamp} onChange={this.handleChange}/>
+                                {/*<DatePicker dateFormat="MM/dd/yyyy" selected={this.state.item.timeStamp} onChange={this.handleChangeDate}/>*/}
+                            </FormGroup>
+                        </div>
 
                         {/*<div className="row">*/}
                         {/*    <FormGroup className="col-md-4 mb-3">*/}
