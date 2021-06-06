@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import './Body.css';
 import Header from "./Header";
+import Expense from "./Expense";
 
 class Body extends Component {
     state = {}
@@ -10,9 +11,7 @@ class Body extends Component {
             <>
                 <Header/>
                 <div className='body'>
-                    <div className='body-title'>
-                        How much have u feed your piggybank?
-                    </div>
+                    <Expense/>
                 </div>
             </>
         );

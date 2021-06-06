@@ -1,8 +1,10 @@
 package com.example.expenseTracker.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @Entity
@@ -13,7 +15,12 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense_seq")
     private Long id;
     private String timeStamp; // Exact time point of expense creation
+
+    @NotNull
     private String description; // Description of expense
+
+    @NonNull
+    private int price; // Price of expense
 
     @ManyToOne
     private Category category;
@@ -81,12 +88,21 @@ public class Expense {
         this.user = user;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Expense{" +
                 "id=" + id +
-                ", timeStamp=" + timeStamp +
+                ", timeStamp='" + timeStamp + '\'' +
                 ", description='" + description + '\'' +
+                ", price=" + price +
                 ", category=" + category +
                 ", user=" + user +
                 '}';

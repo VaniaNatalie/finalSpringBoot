@@ -2,7 +2,6 @@
 import React, { Component } from "react";
 import Body from "./Body";
 import Expense from "./Expense";
-import UpdateExpense from "./UpdateExpense";
 import Category from "./Category";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 
@@ -14,8 +13,7 @@ class Main extends Component {
                 <BrowserRouter>
                     <Switch>
                         <Route path='/' exact = {true} component={Body}/>
-                        <Route path='/expense' exact = {true} component={Expense}/>
-                        <Route path='/expense/:id' component={UpdateExpense}/>
+                        {/*<Route path='/expense' exact = {true} component={Expense}/>*/}
                         <Route path='/categories' exact = {true} component={Category}/>
                     </Switch>
                 </BrowserRouter>

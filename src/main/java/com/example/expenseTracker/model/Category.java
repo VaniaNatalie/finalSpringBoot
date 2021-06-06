@@ -1,8 +1,10 @@
 package com.example.expenseTracker.model;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="category")
@@ -12,7 +14,7 @@ public class Category {
     @SequenceGenerator(name = "category_seq", sequenceName = "category_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq")
     private Long id;
-    @NonNull
+    @NotNull
     private String categoryName; // The categories user wants
 
     public Category() {

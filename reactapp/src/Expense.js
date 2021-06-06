@@ -12,6 +12,7 @@ class Expense extends Component {
         // Set default values
         timeStamp: new Date().toISOString().substr(0,10), // Get only date w/o timezone
         description: '',
+        price: '',
         category: {id: 1, categoryName: ''}
     }
 
@@ -33,6 +34,10 @@ class Expense extends Component {
 
     async handleSubmit(event) {
         const item = this.state.item;
+        if(!item.description || !item.price ) {
+            alert("Please complete the fields");
+            return false;
+        }
         await fetch ('/api/expenses', {
             method: 'POST',
             headers: {
@@ -54,13 +59,15 @@ class Expense extends Component {
         const name = target.name; // Return name of target
         let item = {...this.state.item}; // Get item from state
         item[name] = value; // Update specific field of item
+        console.log(item);
         this.setState({item: item}); // Update item in state
     }
-    
+
     handleChangeCategory(event) {
         const selectedCategory = event.target.value;
         let item = {...this.state.item};
         item.category.id = selectedCategory;
+
         this.setState({item: item});
     }
 
@@ -83,11 +90,11 @@ class Expense extends Component {
     }
 
     async update(id) {
-        /*
         const response = await fetch(`/api/expenses/${id}`);
         const body = await response.json();
         this.setState( {item: {...body}});
 
+        /*
         await fetch(`api/expenses/${id}`, {
             // Method is put
             method: 'PUT',
@@ -99,9 +106,9 @@ class Expense extends Component {
             // body: JSON.stringify(item),
         });
         */
-        this.props.history.push(`/expense/${id}`);
+        this.props.history.push(`/expense/`);
     }
-    
+
     async componentDidMount() {
         const response = await fetch('/api/categories');
         const body = await response.json();
@@ -136,6 +143,7 @@ class Expense extends Component {
                     <td>{expense.description}</td>
                     <td>{expense.timeStamp}</td>
                     <td>{expense.category.categoryName}</td>
+                    <td>${expense.price}</td>
                     <td><Button size="sm" color="danger" onClick={ () =>
                         this.remove(expense.id)}>Delete</Button></td>
                     <td><Button size="sm" color="secondary" onClick={ () =>
@@ -149,13 +157,16 @@ class Expense extends Component {
                     <Form onSubmit={this.handleSubmit}>
                         <FormGroup>
                             <Label for="description">Description</Label>
-                            <Input type="text" name="description" id="description" onChange={this.handleChange}
-                            placeholder="Add a description"/>
+                            <Input type="text" name="description" value={this.state.item.description} onChange={this.handleChange}
+                                   placeholder="Add a description"/>
                         </FormGroup>
 
                         <FormGroup>
                             <Label for="category">Category</Label>
-                            <select onChange={this.handleChangeCategory}>{optionList}</select>
+                            {' '}
+                            <select value={this.state.item.category.id} onChange={this.handleChangeCategory}>{optionList}</select>
+                            {' '}
+                            <Link to="/categories">Edit Category</Link>
                         </FormGroup>
 
                         <div className="row">
@@ -163,6 +174,14 @@ class Expense extends Component {
                                 <Label for="timeStamp">Date</Label>
                                 <Input type="date" name="timeStamp" value={this.state.item.timeStamp} onChange={this.handleChange}/>
                                 {/*<DatePicker dateFormat="MM/dd/yyyy" selected={this.state.item.timeStamp} onChange={this.handleChangeDate}/>*/}
+                            </FormGroup>
+                        </div>
+
+                        <div className="row">
+                            <FormGroup className="col-md-4 mb-3">
+                                <Label for="price">Price</Label>
+                                <Input type="number" name="price" value={this.state.item.price} onChange={this.handleChange}
+                                       placeholder="Add a price"/>
                             </FormGroup>
                         </div>
 
@@ -185,15 +204,16 @@ class Expense extends Component {
                     <h3>Expense List</h3>
                     <Table className="mt-4">
                         <thead>
-                            <tr>
-                                <th width="30%">Description</th>
-                                <th width="20%">Date</th>
-                                <th>Category</th>
-                                <th width="10%">Action</th>
-                            </tr>
+                        <tr>
+                            <th width="30%">Description</th>
+                            <th width="20%">Date</th>
+                            <th>Category</th>
+                            <th width="10%">Price</th>
+                            <th width="25%" colSpan={2}>Action</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {rows}
+                        {rows}
                         </tbody>
                     </Table>
                 </Container>
