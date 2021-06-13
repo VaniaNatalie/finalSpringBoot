@@ -30,7 +30,6 @@ class Category extends Component {
 
         // Check empty input
         if(!item.categoryName) {
-            console.log('duplicate');
             alert("Please add category name");
             return false;
         }
