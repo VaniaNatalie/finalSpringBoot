@@ -25,6 +25,7 @@ class Expense extends Component {
             isLoading: true,
             expenses: [],
             categories: [],
+            total: 0,
             item: this.emptyItem
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -49,8 +50,8 @@ class Expense extends Component {
         });
         // Prevent auto submission when user hits enter
         event.preventDefault();
-        // Redirect to /expense
-        this.props.history.push("/expense");
+        // Redirect to /
+        this.props.history.push("/");
     }
 
     handleChange(event) {
@@ -93,20 +94,6 @@ class Expense extends Component {
         const response = await fetch(`/api/expenses/${id}`);
         const body = await response.json();
         this.setState( {item: {...body}});
-
-        /*
-        await fetch(`api/expenses/${id}`, {
-            // Method is put
-            method: 'PUT',
-            // Only accepting json type
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            // body: JSON.stringify(item),
-        });
-        */
-        this.props.history.push(`/expense/`);
     }
 
     async componentDidMount() {
@@ -117,10 +104,10 @@ class Expense extends Component {
         const responseExp = await fetch('/api/expenses');
         const bodyExp = await responseExp.json();
         this.setState({expenses: bodyExp, isLoading: false});
-
     }
 
     render() {
+        let {total} = this.state;
         const {categories} = this.state;
         // Because we have 2 API calls, put isLoading on the second call
         const {expenses, isLoading} = this.state
@@ -135,6 +122,11 @@ class Expense extends Component {
                 // Every option is unique corresponding to category.id
                 <option value={category.id} key={category.id}>{category.categoryName}</option>
             )
+
+        // To get total of expense
+        for (let i = 0; i < expenses.length; i++) {
+            total += expenses[i].price;
+        }
 
         // Rows for displaying expenses
         let rows =
@@ -202,6 +194,7 @@ class Expense extends Component {
                 {' '}
                 <Container>
                     <h3>Expense List</h3>
+                    <h6>Current total = ${total}</h6>
                     <Table className="mt-4">
                         <thead>
                         <tr>

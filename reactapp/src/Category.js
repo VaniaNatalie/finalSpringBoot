@@ -20,10 +20,22 @@ class Category extends Component {
 
     async handleSubmit(event) {
         const item = this.state.categoryItem;
+
+        for (const category of this.state.categories) {
+            if (item.categoryName === category.categoryName) {
+                alert("Duplicated category!");
+                return false;
+            }
+        }
+
+        // Check empty input
         if(!item.categoryName) {
+            console.log('duplicate');
             alert("Please add category name");
             return false;
         }
+
+        // POST category to API
         await fetch ('/api/categories', {
             method: 'POST',
             headers: {
@@ -41,8 +53,8 @@ class Category extends Component {
 
     handleChange(event) {
         let item = {...this.state.categoryItem};
+        console.log(this.state.categories);
         item.categoryName = event.target.value;
-        console.log(item);
         this.setState({categoryItem: item});
     }
 
