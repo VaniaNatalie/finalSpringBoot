@@ -32,18 +32,20 @@ public class Expense {
 
     public Expense() {}
 
-    public Expense(Long id, String timeStamp, String description, Category category, User user) {
+    public Expense(Long id, String timeStamp, String description, int price, Category category, User user) {
         this.id = id;
         this.timeStamp = timeStamp;
         this.description = description;
+        this.price = price;
         this.category = category;
         this.user = user;
     }
 
     // Id is auto generated
-    public Expense(String timeStamp, String description, Category category, User user) {
+    public Expense(String timeStamp, String description, int price, Category category, User user) {
         this.timeStamp = timeStamp;
         this.description = description;
+        this.price = price;
         this.category = category;
         this.user = user;
     }
@@ -88,9 +90,7 @@ public class Expense {
         this.user = user;
     }
 
-    public int getPrice() {
-        return price;
-    }
+    public int getPrice() { return price; }
 
     public void setPrice(int price) {
         this.price = price;

@@ -17,6 +17,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class ExpenseController {
+    // Using autowired annotation replaces the need for initializing the attribute
     @Autowired
     private ExpenseRepository expenseRepository;
 
@@ -27,7 +28,7 @@ public class ExpenseController {
 
     // Get request for specific expense id
     @GetMapping("/expenses/{id}")
-    ResponseEntity<?> getCategory(@PathVariable Long id) { // Get id from url path
+    ResponseEntity<?> getExpense(@PathVariable Long id) { // Get id from url path
         Optional<Expense> expense = expenseRepository.findById(id);
         return expense.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
