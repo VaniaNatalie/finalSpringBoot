@@ -186,7 +186,7 @@ class Expense extends Component {
 
                         <FormGroup>
                             <Button color="primary" type="submit">Save</Button>{' '}
-                            <Button color="secondary" tag={Link} to="/">Cancel</Button>
+                            <Button color="secondary" onClick={() => window.location.reload()}>Cancel</Button>
                         </FormGroup>
                     </Form>
                 </Container>
